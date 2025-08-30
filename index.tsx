@@ -1,7 +1,19 @@
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+
+// Register the service worker for PWA functionality
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      })
+      .catch(error => {
+        console.log('ServiceWorker registration failed: ', error);
+      });
+  });
+}
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -14,13 +26,3 @@ root.render(
     <App />
   </React.StrictMode>
 );
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').then(registration => {
-      console.log('SW registered: ', registration);
-    }).catch(registrationError => {
-      console.log('SW registration failed: ', registrationError);
-    });
-  });
-}

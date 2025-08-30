@@ -2,8 +2,8 @@ import React from 'react';
 import { BookOpenIcon, InstallIcon } from './icons';
 
 interface HeaderProps {
-    onInstallClick: () => void;
-    showInstallButton: boolean;
+  onInstallClick: () => void;
+  showInstallButton: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({ onInstallClick, showInstallButton }) => {
@@ -17,15 +17,14 @@ const Header: React.FC<HeaderProps> = ({ onInstallClick, showInstallButton }) =>
             </h1>
         </div>
         {showInstallButton && (
-            <button
-                onClick={onInstallClick}
-                className="flex items-center gap-2 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 transition-all transform hover:scale-105 animate-fade-in"
-                title="Install App"
-                aria-label="Install Bible Scholar App"
-            >
-                <InstallIcon className="h-5 w-5" />
-                <span className="hidden sm:inline">Install</span>
-            </button>
+          <button
+            onClick={onInstallClick}
+            className="flex items-center gap-2 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 transition-all transform hover:scale-105 animate-fade-in"
+            aria-label="Install Bible Scholar Quiz App"
+          >
+            <InstallIcon className="h-5 w-5" />
+            <span>Install</span>
+          </button>
         )}
       </div>
     </header>

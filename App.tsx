@@ -11,6 +11,17 @@ import Spinner from './components/Spinner';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
+// Define the BeforeInstallPromptEvent interface for PWA installation
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: Array<string>;
+  readonly userChoice: Promise<{
+    outcome: 'accepted' | 'dismissed',
+    platform: string
+  }>;
+  prompt(): Promise<void>;
+}
+
+
 type GameState = 'menu' | 'quiz_setup' | 'lesson_setup' | 'generating' | 'in_lesson' | 'in_quiz' | 'results';
 type QuizContext = 'quiz' | 'exam';
 
@@ -22,12 +33,12 @@ const App: React.FC = () => {
   const [userAnswers, setUserAnswers] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [currentSettings, setCurrentSettings] = useState<QuizSettings | null>(null);
-  const [installPrompt, setInstallPrompt] = useState<any>(null);
+  const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
-      setInstallPrompt(e);
+      setInstallPrompt(e as BeforeInstallPromptEvent);
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -37,15 +48,20 @@ const App: React.FC = () => {
     };
   }, []);
 
-  const handleInstallClick = useCallback(async () => {
+  const handleInstallClick = () => {
     if (!installPrompt) {
       return;
     }
-    await installPrompt.prompt();
-    const { outcome } = await installPrompt.userChoice;
-    console.log(`User response to the install prompt: ${outcome}`);
-    setInstallPrompt(null);
-  }, [installPrompt]);
+    installPrompt.prompt();
+    installPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('User accepted the install prompt');
+      } else {
+        console.log('User dismissed the install prompt');
+      }
+      setInstallPrompt(null);
+    });
+  };
 
   const handleGoToMenu = useCallback(() => {
     setError(null);
