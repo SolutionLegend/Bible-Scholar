@@ -1,0 +1,5 @@
+{
+  "name": "Bible Scholar Quiz",
+  "description": "A professional Bible test, quiz, and exams web application powered by AI. Test your knowledge on various biblical topics with dynamically generated questions. This is a Progressive Web App (PWA) that can be installed on your device.",
+  "requestFramePermissions": []
+}
